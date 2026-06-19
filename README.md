@@ -41,9 +41,8 @@ Benchmark classical, database-specific, scan-resistant, frequency-based, and ada
 ## Workloads
 
 - Sequential scan
-- Looping scan
+- Cyclic scan
 - Hot/cold
 - Zipfian
 - Mixed OLTP + analytics
 - Bursty
-- Join-like pattern

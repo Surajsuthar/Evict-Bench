@@ -8,6 +8,7 @@
 namespace evictbench {
 
 class EvictionPolicy {
+public:
   explicit EvictionPolicy(std::size_t capacity) : _capacity(capacity) {}
   virtual ~EvictionPolicy() = default;
 
@@ -18,7 +19,8 @@ class EvictionPolicy {
   virtual std::optional<PageId> Evict() = 0;
   virtual bool Contains(PageId page_id) = 0;
   virtual bool Remove(PageId page_id) = 0;
-
+  virtual std::size_t Size() const = 0;
+  virtual void Clear() = 0;
   std::size_t Capacity() const { return _capacity; }
 
 private:
