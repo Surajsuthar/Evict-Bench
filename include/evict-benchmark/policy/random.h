@@ -8,9 +8,9 @@
 
 namespace evictbench {
 
-class FIFOPolicy : public EvictionPolicy {
+class RandomPolicy : public EvictionPolicy {
 public:
-  explicit FIFOPolicy(std::size_t capacity);
+  explicit RandomPolicy(std::size_t capacity);
   bool Access(evictbench::PageId page_id) override;
   std::optional<PageId> Evict() override;
 

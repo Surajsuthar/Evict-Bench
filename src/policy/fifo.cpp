@@ -5,7 +5,7 @@
 #include <cstddef>
 #include <optional>
 #include <stdexcept>
-#include <type_traits>
+#include <utility>
 
 namespace evictbench {
 
@@ -18,8 +18,8 @@ bool FIFOPolicy::Access(PageId page_id) {
   if (_table.contains(page_id)) {
     return true;
   }
-  if (_table.size() >= capacity) {
-    // evit;
+  if (_table.size() >= Capacity()) {
+    Evict();
   }
   _queue.push(page_id);
   _table.insert(page_id);
@@ -39,8 +39,25 @@ std::optional<PageId> FIFOPolicy::Evict() {
 
 bool FIFOPolicy::Contains(PageId page_id) { return _table.contains(page_id); }
 
+bool FIFOPolicy::Remove(PageId page_id) {
+  if (!_table.erase(page_id))
+    return false;
+
+  std::queue<PageId> remaining;
+  while (!_queue.empty()) {
+    if (_queue.front() != page_id)
+      remaining.push(_queue.front());
+    _queue.pop();
+  }
+  _queue = std::move(remaining);
+  return true;
+}
+
 std::size_t FIFOPolicy::Size() const { return _table.size(); }
 
-void FIFOPolicy::Clear() { _table.clear(); }
+void FIFOPolicy::Clear() {
+  _table.clear();
+  _queue = {};
+}
 
 } // namespace evictbench
