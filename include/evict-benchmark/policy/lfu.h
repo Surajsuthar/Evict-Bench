@@ -2,15 +2,15 @@
 #include "evict-benchmark/comman/type.h"
 #include "evict-benchmark/policy/evict-policy.h"
 #include <cstddef>
+#include <list>
 #include <optional>
-#include <queue>
-#include <unordered_set>
+#include <unordered_map>
 
 namespace evictbench {
 
-class FIFOPolicy : public EvictionPolicy {
+class LFUPolicy : public EvictionPolicy {
 public:
-  explicit FIFOPolicy(std::size_t capacity);
+  explicit LFUPolicy(std::size_t capacity);
   bool Access(PageId page_id) override;
   std::optional<PageId> Evict() override;
 
@@ -20,7 +20,9 @@ public:
   void Clear() override;
 
 private:
-  std::queue<PageId> _queue;
-  std::unordered_set<PageId> _table;
+  std::size_t _capacity;
+  using ListIt = std::list<PageId>::iterator;
+  std::list<PageId> _list;
+  std::unordered_map<PageId, ListIt> _table;
 };
 } // namespace evictbench
