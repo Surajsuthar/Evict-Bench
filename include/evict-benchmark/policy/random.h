@@ -3,8 +3,8 @@
 #include "evict-benchmark/policy/evict-policy.h"
 #include <cstddef>
 #include <optional>
-#include <queue>
-#include <unordered_set>
+#include <unordered_map>
+#include <vector>
 
 namespace evictbench {
 
@@ -20,7 +20,10 @@ public:
   void Clear() override;
 
 private:
-  std::queue<PageId> _queue;
-  std::unordered_set<PageId> _table;
+  int random_();
+
+  std::size_t capacity_;
+  std::vector<PageId> pages_;
+  std::unordered_map<PageId, std::size_t> table_;
 };
 } // namespace evictbench
