@@ -1,4 +1,3 @@
-
 #include "evict-benchmark/comman/type.h"
 #include "evict-benchmark/policy/evict-policy.h"
 #include <cstddef>
@@ -20,9 +19,15 @@ public:
   void Clear() override;
 
 private:
-  std::size_t _capacity;
+  struct PageInfo {
+    std::size_t freq;
+    std::list<PageId>::iterator position;
+  };
+
+  std::size_t capacity_;
+  std::size_t min_freq_;
   using ListIt = std::list<PageId>::iterator;
-  std::list<PageId> _list;
-  std::unordered_map<PageId, ListIt> _table;
+  std::unordered_map<std::size_t, std::list<PageId>> freq_list_;
+  std::unordered_map<PageId, PageInfo> pages_;
 };
 } // namespace evictbench
