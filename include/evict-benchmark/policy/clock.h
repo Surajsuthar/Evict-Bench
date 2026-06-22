@@ -4,6 +4,8 @@
 #include <list>
 #include <optional>
 #include <unordered_map>
+#include <utility>
+#include <vector>
 
 namespace evictbench {
 
@@ -19,6 +21,17 @@ public:
   void Clear() override;
 
 private:
-  std::size_t _capacity;
+  struct Slot {
+    PageId page_id{};
+    bool reference_bit{false};
+    bool occupied{false};
+  };
+
+  std::size_t capacity_;
+  std::size_t size_{0};
+  std::size_t clock_hand_{0};
+
+  std::vector<Slot> pages_;
+  std::unordered_map<PageId, std::size_t> table_;
 };
 } // namespace evictbench
