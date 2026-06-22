@@ -5,7 +5,8 @@
 #include <utility>
 namespace evictbench {
 
-RandomPolicy::RandomPolicy(std::size_t capacity) : EvictionPolicy(capacity) {
+RandomPolicy::RandomPolicy(std::size_t capacity)
+    : EvictionPolicy(capacity), capacity_(capacity) {
   if (capacity == 0) {
     throw std::invalid_argument("Random capacity must be > 0");
   }

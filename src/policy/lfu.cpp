@@ -8,7 +8,7 @@
 namespace evictbench {
 
 LFUPolicy::LFUPolicy(std::size_t capacity)
-    : EvictionPolicy(capacity), min_freq_(0) {
+    : EvictionPolicy(capacity), min_freq_(0), capacity_(capacity) {
   if (capacity == 0) {
     throw std::invalid_argument("LFU capacity must be > 0");
   }
