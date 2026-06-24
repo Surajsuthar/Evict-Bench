@@ -1,15 +1,15 @@
 #include "evict-benchmark/comman/type.h"
 #include "evict-benchmark/policy/evict-policy.h"
 #include <cstddef>
+#include <list>
 #include <optional>
 #include <unordered_map>
-#include <vector>
 
 namespace evictbench {
 
-class ClockPolicy : public EvictionPolicy {
+class LRUKPolicy : public EvictionPolicy {
 public:
-  explicit ClockPolicy(std::size_t capacity);
+  explicit LRUKPolicy(std::size_t capacity, std::size_t k);
   bool Access(PageId page_id) override;
   std::optional<PageId> Evict() override;
 
@@ -19,17 +19,9 @@ public:
   void Clear() override;
 
 private:
-  struct Slot {
-    PageId page_id{};
-    bool reference_bit{false};
-    bool occupied{false};
-  };
-
   std::size_t capacity_;
-  std::size_t size_{0};
-  std::size_t clock_hand_{0};
-
-  std::vector<Slot> pages_;
-  std::unordered_map<PageId, std::size_t> table_;
+  std::size_t k_;
+  std::size_t clock_{0};
+  std::unordered_map<PageId, std::list<size_t>> table_;
 };
 } // namespace evictbench
