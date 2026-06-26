@@ -1,3 +1,5 @@
+#pragma once
+
 #include "evict-benchmark/comman/type.h"
 #include "evict-benchmark/policy/evict-policy.h"
 #include <cstddef>

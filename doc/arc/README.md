@@ -40,6 +40,7 @@ For this benchmark, ARC should be expected to:
 
 - Nimrod Megiddo and Dharmendra S. Modha, "ARC: A Self-Tuning, Low Overhead
   Replacement Cache", FAST 2003.
-  https://www.usenix.org/legacy/events/fast03/tech/full_papers/megiddo/megiddo.pdf
+  https://www.usenix.org/legacy/events/fast03/tech/full_papers/megiddo/megiddo.pdf,
+  https://www.usenix.org/system/files/login/articles/1180-Megiddo.pdf
 - Nimrod Megiddo and Dharmendra S. Modha, "Outperforming LRU with an Adaptive
   Replacement Cache Algorithm", IEEE Computer, 2004.

@@ -9,9 +9,9 @@
 
 namespace evictbench {
 
-class LRUPolicy : public EvictionPolicy {
+class ARCPolicy : public EvictionPolicy {
 public:
-  explicit LRUPolicy(std::size_t capacity);
+  explicit ARCPolicy(std::size_t capacity);
   bool Access(PageId page_id) override;
   std::optional<PageId> Evict() override;
 
@@ -21,9 +21,22 @@ public:
   void Clear() override;
 
 private:
-  std::size_t _capacity;
+  std::size_t capacity_;
+
   using ListIt = std::list<PageId>::iterator;
-  std::list<PageId> _list;
-  std::unordered_map<PageId, ListIt> _table;
+  std::list<PageId> mru_;
+  std::list<PageId> mfu_;
+  std::list<PageId> ghost_mru_;
+  std::list<PageId> ghost_mfu_;
+
+  std::unordered_map<PageId, ListIt> cached_table_;
+  std::unordered_map<PageId, ListIt> ghost_table_;
+
+  // adjustbale according workload
+  std::size_t target_mru_size_;
+
+  // nummber of evitable page;
+  std::size_t curr_size_;
 };
+
 } // namespace evictbench
